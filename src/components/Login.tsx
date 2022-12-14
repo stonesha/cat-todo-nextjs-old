@@ -8,7 +8,7 @@ const Login: React.FC = () => {
         <div className="flex flex-col items-center justify-center rounded-md border-2 border-black p-4">
           <button
             className="flex flex-row items-center rounded-md bg-[#5865F2] p-2 text-white"
-            onClick={() => signIn()}
+            onClick={() => signIn("discord")}
           >
             Sign in with Discord{" "}
             <svg
