@@ -5,9 +5,13 @@ import Container from "~/components/Container";
 import Login from "~/components/Login";
 import ProfileDropdown from "~/components/ProfileDropdown";
 import TodoForm from "~/components/TodoForm";
+import { trpc } from "~/utils/trpc";
 
 const Home: NextPage = () => {
   const { data: sessionData } = useSession();
+  const allTodos = trpc.todo.all.useQuery(undefined, {
+    staleTime: 3000,
+  });
 
   return (
     <>
@@ -19,6 +23,12 @@ const Home: NextPage = () => {
             </h1>
             <br />
             <TodoForm />
+            {allTodos.data?.map((todo) => (
+              <div key={todo.id}>
+                <p>{todo.title}</p>
+                {todo.description}
+              </div>
+            ))}
             <ProfileDropdown />
           </div>
         ) : (
