@@ -62,6 +62,7 @@ model Todo {
   title       String   @db.VarChar(255)
   description String?  @db.Text
   userId      String
+  completed   Boolean  @default(false)
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
