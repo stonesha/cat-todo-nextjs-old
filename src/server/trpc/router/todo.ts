@@ -4,6 +4,11 @@ import { router, protectedProcedure } from "../trpc";
 export const todoRouter = router({
   all: protectedProcedure.query(({ ctx }) => {
     return ctx.prisma.todo.findMany({
+      where: {
+        userId: {
+          equals: ctx.session.user.id,
+        },
+      },
       orderBy: {
         created_at: "asc",
       },
