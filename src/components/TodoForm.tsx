@@ -22,6 +22,8 @@ const TodoForm: React.FC = () => {
       };
 
       addTodo.mutate(input);
+      titleRef.current.value = "";
+      if (descriptionRef?.current?.value) descriptionRef.current.value = "";
     }
   };
 
