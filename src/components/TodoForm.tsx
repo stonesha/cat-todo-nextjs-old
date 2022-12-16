@@ -5,7 +5,12 @@ const TodoForm: React.FC = () => {
   const titleRef = useRef<HTMLInputElement>(null);
   const descriptionRef = useRef<HTMLTextAreaElement>(null);
 
-  const addTodo = trpc.todo.add.useMutation();
+  const utils = trpc.useContext();
+  const addTodo = trpc.todo.add.useMutation({
+    async onSuccess() {
+      await utils.todo.all.invalidate();
+    },
+  });
 
   const handleSubmit = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
