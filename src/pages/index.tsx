@@ -1,12 +1,16 @@
 import { type NextApiRequest, type NextApiResponse, type NextPage } from "next";
 import { unstable_getServerSession } from "next-auth/next";
 import { useSession } from "next-auth/react";
+import { createProxySSGHelpers } from "@trpc/react-query/ssg";
+import superjson from "superjson";
 
 import Container from "~/components/Container";
 import ProfileDropdown from "~/components/ProfileDropdown";
 import TodoForm from "~/components/TodoForm";
+import { todoRouter } from "~/server/trpc/router/todo";
 import { trpc } from "~/utils/trpc";
 import { authOptions } from "./api/auth/[...nextauth]";
+import { prisma } from "~/server/db/client";
 
 export async function getServerSideProps({
   req,
@@ -26,7 +30,18 @@ export async function getServerSideProps({
     };
   }
 
-  return { props: {} };
+  const ssg = createProxySSGHelpers({
+    router: todoRouter,
+    ctx: {
+      session: sessionData,
+      prisma: prisma,
+    },
+    transformer: superjson,
+  });
+
+  await ssg.all;
+
+  return { props: { trpcState: ssg.dehydrate() } };
 }
 
 const Home: NextPage = () => {
