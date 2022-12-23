@@ -1,11 +1,33 @@
-import { type NextPage } from "next";
+import { type NextApiRequest, type NextApiResponse, type NextPage } from "next";
+import { unstable_getServerSession } from "next-auth/next";
 import { useSession } from "next-auth/react";
 
 import Container from "~/components/Container";
-import Login from "~/components/Login";
 import ProfileDropdown from "~/components/ProfileDropdown";
 import TodoForm from "~/components/TodoForm";
 import { trpc } from "~/utils/trpc";
+import { authOptions } from "./api/auth/[...nextauth]";
+
+export async function getServerSideProps({
+  req,
+  res,
+}: {
+  req: NextApiRequest;
+  res: NextApiResponse;
+}) {
+  const sessionData = await unstable_getServerSession(req, res, authOptions);
+
+  if (!sessionData) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+
+  return { props: {} };
+}
 
 const Home: NextPage = () => {
   const { data: sessionData } = useSession();
@@ -31,7 +53,7 @@ const Home: NextPage = () => {
             <ProfileDropdown />
           </div>
         ) : (
-          <Login />
+          <></>
         )}
       </Container>
     </>
