@@ -3,7 +3,6 @@ import { type MouseEvent, useRef } from "react";
 
 const TodoForm: React.FC = () => {
   const titleRef = useRef<HTMLInputElement>(null);
-  const descriptionRef = useRef<HTMLTextAreaElement>(null);
 
   const utils = trpc.useContext();
   const addTodo = trpc.todo.add.useMutation({
@@ -18,12 +17,10 @@ const TodoForm: React.FC = () => {
     if (titleRef?.current?.value) {
       const input = {
         title: titleRef?.current?.value,
-        description: descriptionRef?.current?.value,
       };
 
       addTodo.mutate(input);
       titleRef.current.value = "";
-      if (descriptionRef?.current?.value) descriptionRef.current.value = "";
     }
   };
 
@@ -34,11 +31,6 @@ const TodoForm: React.FC = () => {
           ref={titleRef}
           placeholder="Title your todo..."
           className="mb-2 rounded-md bg-gray-200 py-1 px-2"
-        />
-        <textarea
-          ref={descriptionRef}
-          placeholder="Describe your todo..."
-          className="mb-3 rounded-md bg-gray-200 py-1 px-2"
         />
         <div className="flex flex-row justify-around">
           <button

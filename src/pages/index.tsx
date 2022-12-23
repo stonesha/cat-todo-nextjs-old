@@ -26,7 +26,6 @@ const Home: NextPage = () => {
             {allTodos.data?.map((todo) => (
               <div key={todo.id}>
                 <p>{todo.title}</p>
-                {todo.description}
               </div>
             ))}
             <ProfileDropdown />
