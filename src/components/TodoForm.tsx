@@ -29,6 +29,8 @@ const TodoForm: React.FC = () => {
       <form className="flex flex-col">
         <input
           ref={titleRef}
+          type='text'
+          maxLength={255}
           placeholder="Title your todo..."
           className="mb-2 rounded-md bg-gray-200 py-1 px-2"
         />
