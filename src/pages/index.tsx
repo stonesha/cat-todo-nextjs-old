@@ -11,6 +11,7 @@ import { todoRouter } from "~/server/trpc/router/todo";
 import { trpc } from "~/utils/trpc";
 import { authOptions } from "./api/auth/[...nextauth]";
 import { prisma } from "~/server/db/client";
+import TodoItem from "~/components/TodoItem";
 
 export async function getServerSideProps({
   req,
@@ -55,15 +56,12 @@ const Home: NextPage = () => {
       <Container>
         {sessionData ? (
           <div>
-            <h1 className="text-3xl font-semibold">
+            <h1 className="mb-2 text-3xl font-semibold">
               {sessionData?.user?.name}&apos;s todo list
             </h1>
-            <br />
             <TodoForm />
             {allTodos.data?.map((todo) => (
-              <div key={todo.id}>
-                <p>{todo.title}</p>
-              </div>
+              <TodoItem key={todo.id} todo={todo} />
             ))}
             <ProfileDropdown />
           </div>
