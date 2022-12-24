@@ -62,7 +62,7 @@ model Todo {
   title       String   @db.VarChar(255)
   userId      String
   completed   Boolean  @default(false)
-  complete_by DateTime
+  complete_by DateTime @default(now())
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
