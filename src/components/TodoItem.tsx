@@ -20,9 +20,6 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
           <p className="text-xl font-medium">{todo.title}</p>
           <p className="text-sm font-normal">{relative_completed_by}</p>
         </div>
-        <button className="h-6 w-6 rounded-md bg-blue-500 p-1 text-white hover:bg-blue-700">
-          <PencilIcon className="h-4 w-4" aria-hidden="true" />
-        </button>
       </div>
     </>
   );
