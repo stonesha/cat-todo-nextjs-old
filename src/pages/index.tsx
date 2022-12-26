@@ -56,7 +56,7 @@ const Home: NextPage = () => {
       <Container>
         {sessionData ? (
           <div>
-            <h1 className="mb-2 text-3xl font-semibold">
+            <h1 className="mb-2 w-full overflow-hidden text-ellipsis text-center text-3xl font-semibold">
               {sessionData?.user?.name}&apos;s todo list
             </h1>
             <TodoForm />
