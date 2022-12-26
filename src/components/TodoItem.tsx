@@ -1,3 +1,4 @@
+import { PencilIcon } from "@heroicons/react/20/solid";
 import { type Todo } from "@prisma/client";
 import { formatRelative } from "date-fns";
 
@@ -21,6 +22,9 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
           </p>
           <p className="text-sm font-normal">{relative_completed_by}</p>
         </div>
+        <button className="ml-2 h-6 w-6 rounded-md bg-blue-500 p-1 text-white hover:bg-blue-700">
+          <PencilIcon className="h-4 w-4" aria-hidden="true" />
+        </button>
       </div>
     </>
   );
