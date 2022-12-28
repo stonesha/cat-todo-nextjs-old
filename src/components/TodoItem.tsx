@@ -1,6 +1,8 @@
-import { PencilIcon } from "@heroicons/react/20/solid";
+import { PencilIcon, TrashIcon } from "@heroicons/react/20/solid";
 import { type Todo } from "@prisma/client";
 import { formatRelative } from "date-fns";
+import { trpc } from "~/utils/trpc";
+import { type MouseEvent } from "react";
 
 interface TodoItemProps {
   todo: Todo;
@@ -8,6 +10,19 @@ interface TodoItemProps {
 
 const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
   const relative_completed_by = formatRelative(todo.complete_by, new Date());
+
+  const utils = trpc.useContext();
+  const deleteTodo = trpc.todo.delete.useMutation({
+    async onSuccess() {
+      await utils.todo.all.invalidate();
+    },
+  });
+
+  const handleDelete = (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    deleteTodo.mutate(todo.id);
+  };
 
   return (
     <>
@@ -22,9 +37,17 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
             <p className="text-sm font-normal">{relative_completed_by}</p>
           </div>
         </div>
-        <button className="ml-2 h-6 w-6 rounded-md bg-blue-500 p-1 text-white hover:bg-blue-700">
-          <PencilIcon className="h-4 w-4" aria-hidden="true" />
-        </button>
+        <div className="flex flex-row">
+          <button className="ml-2 h-6 w-6 rounded-md bg-blue-500 p-1 text-white hover:bg-blue-700">
+            <PencilIcon className="h-4 w-4" aria-hidden="true" />
+          </button>
+          <button
+            className="ml-2 h-6 w-6 rounded-md bg-red-500 p-1 text-white hover:bg-red-700"
+            onClick={handleDelete}
+          >
+            <TrashIcon className="h-4 w-4" aria-hidden="true" />
+          </button>
+        </div>
       </div>
     </>
   );
