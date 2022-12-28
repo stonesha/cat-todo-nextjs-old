@@ -18,6 +18,7 @@ export const todoRouter = router({
     .input(
       z.object({
         title: z.string(),
+        complete_by: z.date(),
       })
     )
     .mutation(async ({ ctx, input }) => {
