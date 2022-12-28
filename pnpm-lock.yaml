@@ -20,6 +20,7 @@ specifiers:
   date-fns: ^2.29.3
   eslint: ^8.26.0
   eslint-config-next: 13.0.2
+  hint.css: ^2.7.0
   next: 13.0.2
   next-auth: ^4.15.1
   postcss: ^8.4.14
@@ -45,6 +46,7 @@ dependencies:
   '@trpc/react-query': 10.4.2_yizyvx5vkdbtksk5zhgjdfntnm
   '@trpc/server': 10.4.2
   date-fns: 2.29.3
+  hint.css: 2.7.0
   next: 13.0.2_biqbaboplfbrettd7655fr4n2y
   next-auth: 4.17.0_pknogjuzx4bv7zxtatcb2ahtsq
   react: 18.2.0
@@ -1497,6 +1499,10 @@ packages:
     engines: {node: '>= 0.4.0'}
     dependencies:
       function-bind: 1.1.1
+
+  /hint.css/2.7.0:
+    resolution: {integrity: sha512-kNtr/oXTOFA+qYLFAHY1dKVKZuAbavCPB22+w9kaFzqjB9ZLSFJyksxrVsJCphQiQxAYLazXZdrOaGLRe0hZMA==}
+    dev: false
 
   /ignore/5.2.1:
     resolution: {integrity: sha512-d2qQLzTJ9WxQftPAuEQpSPmKqzxePjzVbpAVv62AQ64NTL+wR4JkrVqR/LqFsFEUsHDAiId52mJteHDFuDkElA==}

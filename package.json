@@ -21,6 +21,7 @@
     "@trpc/react-query": "^10.0.0",
     "@trpc/server": "^10.0.0",
     "date-fns": "^2.29.3",
+    "hint.css": "^2.7.0",
     "next": "13.0.2",
     "next-auth": "^4.15.1",
     "react": "18.2.0",
