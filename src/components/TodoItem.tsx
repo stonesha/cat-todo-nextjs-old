@@ -2,7 +2,7 @@ import { PencilIcon, TrashIcon } from "@heroicons/react/20/solid";
 import { type Todo } from "@prisma/client";
 import { formatRelative } from "date-fns";
 import { trpc } from "~/utils/trpc";
-import { type MouseEvent } from "react";
+import { type ChangeEvent, type MouseEvent } from "react";
 
 interface TodoItemProps {
   todo: Todo;
@@ -12,6 +12,13 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
   const relative_completed_by = formatRelative(todo.complete_by, new Date());
 
   const utils = trpc.useContext();
+
+  const editTodo = trpc.todo.edit.useMutation({
+    async onSuccess() {
+      await utils.todo.all.invalidate();
+    },
+  });
+
   const deleteTodo = trpc.todo.delete.useMutation({
     async onSuccess() {
       await utils.todo.all.invalidate();
@@ -24,6 +31,15 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
     deleteTodo.mutate(todo.id);
   };
 
+  const handleComplete = (e: ChangeEvent<HTMLInputElement>) => {
+    const checked = e.currentTarget.checked;
+
+    editTodo.mutate({
+      id: todo.id,
+      data: { completed: checked },
+    });
+  };
+
   return (
     <>
       <div className="flex w-72 flex-row items-center justify-between rounded-md border-2 border-black px-2 py-2 shadow-md md:w-96">
@@ -31,6 +47,7 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
           <input
             type="checkbox"
             className="border-3 ml-1 mr-4 h-6 w-6 cursor-pointer rounded-lg checked:bg-green-500"
+            onChange={handleComplete}
           />
           <div className="shrink">
             <p className="text-xl font-medium">{todo.title}</p>
