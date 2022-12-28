@@ -27,4 +27,14 @@ export const todoRouter = router({
       });
       return todo;
     }),
+  delete: protectedProcedure
+    .input(z.number())
+    .mutation(async ({ ctx, input: id }) => {
+      await ctx.prisma.todo.delete({
+        where: {
+          id: id,
+        },
+      });
+      return id;
+    }),
 });
