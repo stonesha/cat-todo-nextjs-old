@@ -30,7 +30,7 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
         <div className="flex w-full flex-row items-center overflow-hidden text-ellipsis">
           <input
             type="checkbox"
-            className="border-3 mr-4 h-6 w-6 cursor-pointer rounded-lg checked:bg-green-500"
+            className="border-3 ml-1 mr-4 h-6 w-6 cursor-pointer rounded-lg checked:bg-green-500"
           />
           <div className="shrink">
             <p className="text-xl font-medium">{todo.title}</p>
