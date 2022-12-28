@@ -3,6 +3,8 @@ import { type MouseEvent, useRef } from "react";
 
 const TodoForm: React.FC = () => {
   const titleRef = useRef<HTMLInputElement>(null);
+  const dateRef = useRef<HTMLInputElement>(null);
+  const timeRef = useRef<HTMLInputElement>(null);
 
   const utils = trpc.useContext();
   const addTodo = trpc.todo.add.useMutation({
@@ -14,9 +16,16 @@ const TodoForm: React.FC = () => {
   const handleSubmit = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    if (titleRef?.current?.value) {
+    if (
+      titleRef?.current?.value &&
+      dateRef?.current?.value &&
+      timeRef?.current?.value
+    ) {
       const input = {
         title: titleRef?.current?.value,
+        complete_by: new Date(
+          `${dateRef?.current?.value} ${timeRef?.current?.value}`
+        ),
       };
 
       addTodo.mutate(input);
@@ -34,6 +43,18 @@ const TodoForm: React.FC = () => {
           placeholder="Title your todo..."
           className="mb-2 rounded-md bg-gray-200 py-1 px-2"
         />
+        <div className="flex flex-row justify-around">
+          <input
+            ref={dateRef}
+            type="date"
+            className="mb-2 rounded-md bg-gray-200 py-1 px-2"
+          />
+          <input
+            ref={timeRef}
+            type="time"
+            className="mb-2 rounded-md bg-gray-200 py-1 px-2"
+          />
+        </div>
         <div className="flex flex-row justify-around">
           <button
             type="reset"
