@@ -4,6 +4,8 @@ import { formatRelative } from "date-fns";
 import { trpc } from "~/utils/trpc";
 import { type ChangeEvent, type MouseEvent } from "react";
 
+import "hint.css";
+
 interface TodoItemProps {
   todo: Todo;
 }
@@ -43,27 +45,39 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
   return (
     <>
       <div className="flex w-72 flex-row items-center justify-between rounded-md border-2 border-black px-2 py-2 shadow-md md:w-96">
-        <div className="flex w-full flex-row items-center overflow-hidden text-ellipsis">
+        <div className="flex w-full flex-row items-center overflow-x-hidden text-ellipsis">
           <input
             type="checkbox"
             className="border-3 ml-1 mr-4 h-6 w-6 cursor-pointer rounded-lg checked:bg-green-500"
             onChange={handleComplete}
           />
+
           <div className="shrink">
             <p className="text-xl font-medium">{todo.title}</p>
             <p className="text-sm font-normal">{relative_completed_by}</p>
           </div>
         </div>
         <div className="flex flex-row">
-          <button className="ml-2 h-6 w-6 rounded-md bg-blue-500 p-1 text-white hover:bg-blue-700">
-            <PencilIcon className="h-4 w-4" aria-hidden="true" />
-          </button>
-          <button
-            className="ml-2 h-6 w-6 rounded-md bg-red-500 p-1 text-white hover:bg-red-700"
-            onClick={handleDelete}
+          <span
+            className="hint--bounce hint--bottom hint--rounded hint--info ml-2 w-fit"
+            aria-label="Edit"
           >
-            <TrashIcon className="h-4 w-4" aria-hidden="true" />
-          </button>
+            <button className="h-6 w-6 rounded-md bg-blue-500 p-1 text-white hover:bg-blue-700">
+              <PencilIcon className="h-4 w-4" aria-hidden="true" />
+            </button>
+          </span>
+
+          <span
+            className="hint--bounce hint--bottom hint--rounded hint--error ml-2 w-fit"
+            aria-label="Delete"
+          >
+            <button
+              className="h-6 w-6 rounded-md bg-red-500 p-1 text-white hover:bg-red-700"
+              onClick={handleDelete}
+            >
+              <TrashIcon className="h-4 w-4" aria-hidden="true" />
+            </button>
+          </span>
         </div>
       </div>
     </>
