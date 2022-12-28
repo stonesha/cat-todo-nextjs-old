@@ -27,6 +27,26 @@ export const todoRouter = router({
       });
       return todo;
     }),
+  edit: protectedProcedure
+    .input(
+      z.object({
+        id: z.number(),
+        data: z.object({
+          title: z.string().optional(),
+          userId: z.string().optional(),
+          completed: z.boolean().optional(),
+          completed_by: z.date().optional(),
+        }),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { id, data } = input;
+      const todo = await ctx.prisma.todo.update({
+        where: { id },
+        data,
+      });
+      return todo;
+    }),
   delete: protectedProcedure
     .input(z.number())
     .mutation(async ({ ctx, input: id }) => {
