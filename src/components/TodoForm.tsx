@@ -1,10 +1,19 @@
 import { trpc } from "~/utils/trpc";
-import { type MouseEvent, useRef } from "react";
+import { type MouseEvent, useRef, useEffect } from "react";
+import useStore from "~/utils/useStore";
+import { type Todo } from "@prisma/client";
 
-const TodoForm: React.FC = () => {
+interface TodoFormProps {
+  todo?: Todo;
+}
+
+const TodoForm: React.FC<TodoFormProps> = ({ todo }) => {
   const titleRef = useRef<HTMLInputElement>(null);
   const dateRef = useRef<HTMLInputElement>(null);
   const timeRef = useRef<HTMLInputElement>(null);
+
+  const setEditModalIsOpen = useStore((state) => state.setEditModalIsOpen);
+  const editModalIsOpen = useStore((state) => state.editModalIsOpen);
 
   const utils = trpc.useContext();
   const addTodo = trpc.todo.add.useMutation({
@@ -31,6 +40,8 @@ const TodoForm: React.FC = () => {
       addTodo.mutate(input);
       titleRef.current.value = "";
     }
+
+    if (editModalIsOpen) setEditModalIsOpen(false);
   };
 
   return (
@@ -42,17 +53,20 @@ const TodoForm: React.FC = () => {
           maxLength={255}
           placeholder="Title your todo..."
           className="mb-2 rounded-md bg-gray-200 py-1 px-2"
+          value={todo?.title}
         />
         <div className="flex flex-row justify-around">
           <input
             ref={dateRef}
             type="date"
             className="mb-2 rounded-md bg-gray-200 py-1 px-2"
+            value={todo?.complete_by.toISOString().split("T")[0]}
           />
           <input
             ref={timeRef}
             type="time"
             className="mb-2 rounded-md bg-gray-200 py-1 px-2"
+            value={todo?.complete_by.toISOString().split("T")[1]?.split(".")[0]}
           />
         </div>
         <div className="flex flex-row justify-around">

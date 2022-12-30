@@ -12,6 +12,7 @@ import { trpc } from "~/utils/trpc";
 import { authOptions } from "./api/auth/[...nextauth]";
 import { prisma } from "~/server/db/client";
 import TodoItem from "~/components/TodoItem";
+import TodoEditModal from "~/components/TodoEditModal";
 
 export async function getServerSideProps({
   req,
@@ -64,6 +65,7 @@ const Home: NextPage = () => {
               <TodoItem key={todo.id} todo={todo} />
             ))}
             <ProfileDropdown />
+            <TodoEditModal />
           </div>
         ) : (
           <></>

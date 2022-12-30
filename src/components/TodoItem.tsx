@@ -3,6 +3,7 @@ import { type Todo } from "@prisma/client";
 import { formatRelative } from "date-fns";
 import { trpc } from "~/utils/trpc";
 import { type ChangeEvent, type MouseEvent } from "react";
+import useStore from "~/utils/useStore";
 
 import "hint.css";
 
@@ -12,6 +13,9 @@ interface TodoItemProps {
 
 const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
   const relative_completed_by = formatRelative(todo.complete_by, new Date());
+
+  const setEditModalIsOpen = useStore((state) => state.setEditModalIsOpen);
+  const setCurrentTodo = useStore((state) => state.setCurrentTodo);
 
   const utils = trpc.useContext();
 
@@ -62,7 +66,13 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
             className="hint--bounce hint--bottom hint--rounded hint--info ml-2 w-fit"
             aria-label="Edit"
           >
-            <button className="h-6 w-6 rounded-md bg-blue-500 p-1 text-white hover:bg-blue-700">
+            <button
+              className="h-6 w-6 rounded-md bg-blue-500 p-1 text-white hover:bg-blue-700"
+              onClick={() => {
+                setEditModalIsOpen(true);
+                setCurrentTodo(todo);
+              }}
+            >
               <PencilIcon className="h-4 w-4" aria-hidden="true" />
             </button>
           </span>
