@@ -54,6 +54,7 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
             type="checkbox"
             className="border-3 ml-1 mr-4 h-6 w-6 cursor-pointer rounded-lg checked:bg-green-500"
             onChange={handleComplete}
+            checked={todo?.completed}
           />
 
           <div className="shrink">
