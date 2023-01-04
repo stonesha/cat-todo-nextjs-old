@@ -4,7 +4,6 @@ import { formatRelative } from "date-fns";
 import { trpc } from "~/utils/trpc";
 import { type ChangeEvent, type MouseEvent } from "react";
 import useStore from "~/utils/useStore";
-
 import "hint.css";
 
 interface TodoItemProps {
@@ -26,8 +25,26 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
   });
 
   const deleteTodo = trpc.todo.delete.useMutation({
+    /*
+    // Old Code in case we want this restored
     async onSuccess() {
       await utils.todo.all.invalidate();
+    }
+    */
+
+    // Ripped from https://github.com/trpc/examples-next-prisma-todomvc/blob/7002f196fe9d563703ddc60940920bd11b664ee4/src/pages/%5Bfilter%5D.tsx
+    // Understanding is that the onMutate triggers when the request is sent
+    // and the getdata and setdata are used to perform immediate updates to the front end instead of waiting for a rerender to update the data
+    async onMutate() {
+      await utils.todo.all.invalidate();
+      const allTasks = utils.todo.all.getData();
+      if (!allTasks) {
+        return;
+      }
+      utils.todo.all.setData(
+        undefined,
+        allTasks.filter((t) => t.id != todo.id),
+      );
     },
   });
 
