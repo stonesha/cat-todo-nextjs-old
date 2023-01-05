@@ -66,6 +66,7 @@ const TodoForm: React.FC<TodoFormProps> = ({ todo }) => {
           maxLength={255}
           placeholder="Title your todo..."
           className="mb-2 rounded-md bg-gray-200 py-1 px-2"
+          disabled={isSubmitting}
         />
         <div className="flex flex-row justify-around">
           <input
