@@ -1,17 +1,24 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
-import useStore from "~/utils/useStore";
 import TodoForm from "~/components/TodoForm";
+import { type Todo } from "@prisma/client";
 
-const TodoEditModal: React.FC = () => {
-  const setEditModalIsOpen = useStore((state) => state.setEditModalIsOpen);
-  const editModalIsOpen = useStore((state) => state.editModalIsOpen);
+interface TodoEditModalProps {
+  editModalIsOpen: boolean;
+  setEditModalIsOpen: (editModalIsOpen: boolean) => void;
+  currentTodo: Todo | undefined;
+}
 
-  const currentTodo = useStore((state) => state.currentTodo);
+const TodoEditModal: React.FC<TodoEditModalProps> = ({
+  editModalIsOpen,
+  setEditModalIsOpen,
+  currentTodo,
+}) => {
+  if (!editModalIsOpen) return null;
 
   return (
     <>
-      <Transition appear show={editModalIsOpen} as={Fragment}>
+      <Transition show appear as={Fragment}>
         <Dialog
           as="div"
           className="relative z-10"
