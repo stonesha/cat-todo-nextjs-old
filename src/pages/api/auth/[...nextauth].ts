@@ -8,6 +8,21 @@ import { prisma } from "~/server/db/client";
 
 export const authOptions: NextAuthOptions = {
   callbacks: {
+    async signIn({ user, profile }) {
+      await prisma.user.upsert({
+        where: {
+          id: user.id,
+        },
+        update: {
+          // needed since the type def for profile doesn't include image_url returned by Discord
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          //@ts-ignore
+          image: profile?.image_url,
+        },
+        create: user,
+      });
+      return true;
+    },
     session({ session, user }) {
       if (session.user) {
         session.user.id = user.id;
