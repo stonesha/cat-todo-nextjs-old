@@ -67,8 +67,10 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
         <div className="flex w-full flex-row items-center overflow-x-hidden text-ellipsis">
           <input
             type="checkbox"
-            className="border-3 ml-1 mr-4 h-6 w-6 cursor-pointer rounded-lg checked:bg-green-500"
-            onChange={handleComplete}
+            className={`border-3 ${
+              todo?.completed ? "checkbox-success" : "checkbox-info"
+            } checkbox ml-1 mr-4 h-6 w-6 cursor-pointer rounded-lg`}
+            onChange={(e) => handleComplete(e)}
             checked={todo?.completed}
           />
 
