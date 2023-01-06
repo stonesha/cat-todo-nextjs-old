@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import format from "date-fns/format";
 import * as z from "zod";
+import { useEffect } from "react";
 
 interface TodoFormProps {
   todo?: Todo;
@@ -40,14 +41,19 @@ const TodoForm: React.FC<TodoFormProps> = ({ todo }) => {
     },
   });
 
-  if (todo) {
-    const defaultValues: TodoFormSchemaType = {
-      title: todo.title,
-      date: format(todo.complete_by, "yyyy-MM-dd"),
-      time: format(todo.complete_by, "HH:mm"),
-    };
-    reset({ ...defaultValues });
-  }
+  const setEditModalIsOpen = useStore((state) => state.setEditModalIsOpen);
+
+  useEffect(() => {
+    if (todo) {
+      const defaultValues: TodoFormSchemaType = {
+        title: todo.title,
+        date: format(todo.complete_by, "yyyy-MM-dd"),
+        time: format(todo.complete_by, "HH:mm"),
+      };
+      reset({ ...defaultValues });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [todo]);
 
   const onSubmit = async (data: TodoFormSchemaType) => {
     if (todo) {
