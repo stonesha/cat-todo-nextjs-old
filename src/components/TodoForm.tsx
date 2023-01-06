@@ -34,6 +34,12 @@ const TodoForm: React.FC<TodoFormProps> = ({ todo }) => {
     },
   });
 
+  const editTodo = trpc.todo.edit.useMutation({
+    async onSuccess() {
+      await utils.todo.all.invalidate();
+    },
+  });
+
   if (todo) {
     const defaultValues: TodoFormSchemaType = {
       title: todo.title,
@@ -44,20 +50,27 @@ const TodoForm: React.FC<TodoFormProps> = ({ todo }) => {
   }
 
   const onSubmit = async (data: TodoFormSchemaType) => {
-    const input = {
-      title: data.title,
-      complete_by: new Date(`${data.date} ${data.time}`),
-    };
+    if (todo) {
+      const input = {
+        title: data.title,
+        complete_by: new Date(`${data.date} ${data.time}`),
+        userId: todo.userId,
+        completed: todo.completed,
+      };
 
-    addTodo.mutate(input);
+      editTodo.mutate({ id: todo.id, data: input });
+    } else {
+      const input = {
+        title: data.title,
+        complete_by: new Date(`${data.date} ${data.time}`),
+      };
+      addTodo.mutate(input);
+    }
   };
 
   return (
     <>
-      <form
-        className="mb-2 flex flex-col"
-        onSubmit={() => handleSubmit(onSubmit)}
-      >
+      <form className="mb-2 flex flex-col" onSubmit={handleSubmit(onSubmit)}>
         <input
           {...register("title")}
           type="text"
