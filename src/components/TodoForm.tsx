@@ -54,7 +54,10 @@ const TodoForm: React.FC<TodoFormProps> = ({ todo }) => {
 
   return (
     <>
-      <form className="mb-2 flex flex-col" onSubmit={handleSubmit(onSubmit)}>
+      <form
+        className="mb-2 flex flex-col"
+        onSubmit={() => handleSubmit(onSubmit)}
+      >
         <input
           {...register("title")}
           type="text"
