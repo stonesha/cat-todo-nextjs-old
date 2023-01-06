@@ -1,5 +1,4 @@
 import { trpc } from "~/utils/trpc";
-import useStore from "~/utils/useStore";
 import { type Todo } from "@prisma/client";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -28,9 +27,6 @@ const TodoForm: React.FC<TodoFormProps> = ({ todo }) => {
     resolver: zodResolver(schema),
   });
 
-  const setEditModalIsOpen = useStore((state) => state.setEditModalIsOpen);
-  const editModalIsOpen = useStore((state) => state.editModalIsOpen);
-
   const utils = trpc.useContext();
   const addTodo = trpc.todo.add.useMutation({
     async onSuccess() {
@@ -54,7 +50,6 @@ const TodoForm: React.FC<TodoFormProps> = ({ todo }) => {
     };
 
     addTodo.mutate(input);
-    if (editModalIsOpen) setEditModalIsOpen(false);
   };
 
   return (

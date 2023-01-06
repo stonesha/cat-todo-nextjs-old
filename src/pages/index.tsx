@@ -53,9 +53,6 @@ const Home: NextPage = () => {
     staleTime: 3000,
   });
 
-  const setEditModalIsOpen = useStore((state) => state.setEditModalIsOpen);
-  const editModalIsOpen = useStore((state) => state.editModalIsOpen);
-
   const currentTodo = useStore((state) => state.currentTodo);
 
   return (
@@ -71,11 +68,7 @@ const Home: NextPage = () => {
               <TodoItem key={todo.id} todo={todo} />
             ))}
             <ProfileDropdown />
-            <TodoEditModal
-              setEditModalIsOpen={setEditModalIsOpen}
-              editModalIsOpen={editModalIsOpen}
-              currentTodo={currentTodo}
-            />
+            <TodoEditModal currentTodo={currentTodo} />
           </div>
         ) : (
           <></>

@@ -4,7 +4,6 @@ import { formatRelative } from "date-fns";
 import { trpc } from "~/utils/trpc";
 import { type ChangeEvent, type MouseEvent } from "react";
 import useStore from "~/utils/useStore";
-import "hint.css";
 
 interface TodoItemProps {
   todo: Todo;
@@ -13,7 +12,6 @@ interface TodoItemProps {
 const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
   const relative_completed_by = formatRelative(todo.complete_by, new Date());
 
-  const setEditModalIsOpen = useStore((state) => state.setEditModalIsOpen);
   const setCurrentTodo = useStore((state) => state.setCurrentTodo);
 
   const utils = trpc.useContext();
@@ -43,7 +41,7 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
       }
       utils.todo.all.setData(
         undefined,
-        allTasks.filter((t) => t.id != todo.id),
+        allTasks.filter((t) => t.id != todo.id)
       );
     },
   });
@@ -80,32 +78,26 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
           </div>
         </div>
         <div className="flex flex-row">
-          <span
-            className="hint--bounce hint--bottom hint--rounded hint--info ml-2 w-fit"
-            aria-label="Edit"
-          >
-            <button
-              className="h-6 w-6 rounded-md bg-blue-500 p-1 text-white hover:bg-blue-700"
+          <div className="tooltip tooltip-info ml-2" data-tip="Edit">
+            <label
+              className="btn-xs btn rounded-md bg-blue-500 text-white hover:bg-blue-700"
               onClick={() => {
-                setEditModalIsOpen(true);
                 setCurrentTodo(todo);
               }}
+              htmlFor="todo-edit-modal"
             >
               <PencilIcon className="h-4 w-4" aria-hidden="true" />
-            </button>
-          </span>
+            </label>
+          </div>
 
-          <span
-            className="hint--bounce hint--bottom hint--rounded hint--error ml-2 w-fit"
-            aria-label="Delete"
-          >
+          <div className="tooltip tooltip-error ml-1" data-tip="Delete">
             <button
-              className="h-6 w-6 rounded-md bg-red-500 p-1 text-white hover:bg-red-700"
+              className="btn-xs btn rounded-md bg-red-500 text-white hover:bg-red-700"
               onClick={handleDelete}
             >
               <TrashIcon className="h-4 w-4" aria-hidden="true" />
             </button>
-          </span>
+          </div>
         </div>
       </div>
     </>
