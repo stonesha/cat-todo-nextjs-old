@@ -1,7 +1,8 @@
 import TodoForm from "~/components/TodoForm";
 import { type Todo } from "@prisma/client";
 import useStore from "~/utils/useStore";
-import { Modal } from "react-daisyui";
+import { useClickAway } from "react-use";
+import { useRef } from "react";
 
 interface TodoEditModalProps {
   currentTodo: Todo | undefined;
@@ -10,17 +11,26 @@ interface TodoEditModalProps {
 const TodoEditModal: React.FC<TodoEditModalProps> = ({ currentTodo }) => {
   const editModalIsOpen = useStore((state) => state.editModalIsOpen);
   const setEditModalIsOpen = useStore((state) => state.setEditModalIsOpen);
+
+  const ref = useRef(null);
+  useClickAway(ref, () => {
+    setEditModalIsOpen(false);
+  });
+
   return (
     <>
-      <Modal
-        open={editModalIsOpen}
-        onClickBackdrop={() => setEditModalIsOpen(!editModalIsOpen)}
+      <input type="checkbox" id="todo-edit-modal" className="modal-toggle" />
+      <label
+        htmlFor="todo-edit-modal"
+        className={`${
+          editModalIsOpen ? "modal-open" : ""
+        } modal-center modal cursor-pointer`}
       >
-        <Modal.Header className="ext-lg font-bold">Editing Todo</Modal.Header>
-        <Modal.Body>
+        <label className="modal-box relative" ref={ref}>
+          <h3 className="text-lg font-bold">Editing Todo</h3>
           <TodoForm todo={currentTodo} />
-        </Modal.Body>
-      </Modal>
+        </label>
+      </label>
     </>
   );
 };
