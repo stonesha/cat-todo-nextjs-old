@@ -1,16 +1,12 @@
 import TodoForm from "~/components/TodoForm";
-import { type Todo } from "@prisma/client";
 import useStore from "~/utils/useStore";
 import { useClickAway } from "react-use";
 import { useRef } from "react";
 
-interface TodoEditModalProps {
-  currentTodo: Todo | undefined;
-}
-
-const TodoEditModal: React.FC<TodoEditModalProps> = ({ currentTodo }) => {
+const TodoEditModal: React.FC = () => {
   const editModalIsOpen = useStore((state) => state.editModalIsOpen);
   const setEditModalIsOpen = useStore((state) => state.setEditModalIsOpen);
+  const currentTodo = useStore((state) => state.currentTodo);
 
   const ref = useRef(null);
   useClickAway(ref, () => {

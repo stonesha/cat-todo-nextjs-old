@@ -13,7 +13,6 @@ import { authOptions } from "./api/auth/[...nextauth]";
 import { prisma } from "~/server/db/client";
 import TodoItem from "~/components/TodoItem";
 import TodoEditModal from "~/components/TodoEditModal";
-import useStore from "~/utils/useStore";
 
 export async function getServerSideProps({
   req,
@@ -53,8 +52,6 @@ const Home: NextPage = () => {
     staleTime: 3000,
   });
 
-  const currentTodo = useStore((state) => state.currentTodo);
-
   return (
     <>
       <Container>
@@ -68,7 +65,7 @@ const Home: NextPage = () => {
               <TodoItem key={todo.id} todo={todo} />
             ))}
             <ProfileDropdown />
-            <TodoEditModal currentTodo={currentTodo} />
+            <TodoEditModal />
           </div>
         ) : (
           <></>
