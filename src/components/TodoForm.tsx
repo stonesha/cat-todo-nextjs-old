@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import format from "date-fns/format";
 import * as z from "zod";
 import { useEffect } from "react";
+import useStore from "~/utils/useStore";
 
 interface TodoFormProps {
   todo?: Todo;
@@ -72,6 +73,8 @@ const TodoForm: React.FC<TodoFormProps> = ({ todo }) => {
       };
       addTodo.mutate(input);
     }
+
+    setEditModalIsOpen(false);
   };
 
   return (

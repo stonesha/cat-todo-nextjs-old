@@ -16,6 +16,7 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
   }
 
   const setCurrentTodo = useStore((state) => state.setCurrentTodo);
+  const setEditModalIsOpen = useStore((state) => state.setEditModalIsOpen);
 
   const utils = trpc.useContext();
 
@@ -88,6 +89,7 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
               className="btn-xs btn rounded-md bg-blue-500 text-white hover:bg-blue-700"
               onClick={() => {
                 setCurrentTodo(todo);
+                setEditModalIsOpen(true);
               }}
               htmlFor="todo-edit-modal"
             >
