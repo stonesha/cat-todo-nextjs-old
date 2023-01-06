@@ -1,6 +1,6 @@
 import { PencilIcon, TrashIcon } from "@heroicons/react/20/solid";
 import { type Todo } from "@prisma/client";
-import { formatRelative } from "date-fns";
+import { formatRelative, format } from "date-fns";
 import { trpc } from "~/utils/trpc";
 import { type ChangeEvent, type MouseEvent } from "react";
 import useStore from "~/utils/useStore";
@@ -10,7 +10,10 @@ interface TodoItemProps {
 }
 
 const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
-  const relative_completed_by = formatRelative(todo.complete_by, new Date());
+  let relative_completed_by = formatRelative(todo.complete_by, new Date());
+  if (!relative_completed_by.includes(":")) {
+    relative_completed_by += " " + format(todo.complete_by, "hh:mm aaaa");
+  }
 
   const setCurrentTodo = useStore((state) => state.setCurrentTodo);
 
