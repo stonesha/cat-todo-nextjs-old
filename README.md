@@ -5,5 +5,5 @@ Over-engineered todo list web app that uses:
 - next-auth for Discord authentication
 - prisma for simple MySQL CRUD
 - trpc for typesafe APIs
-- zod for schema validation
+- zod for schema validation \
 and more.
