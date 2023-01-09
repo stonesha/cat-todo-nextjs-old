@@ -13,8 +13,12 @@ interface TodoFormProps {
 
 const schema = z.object({
   title: z.string().min(1, { message: "Required" }),
-  date: z.string().optional(),
-  time: z.string().optional(),
+  date: z.string({
+    required_error: "Required",
+  }),
+  time: z.string({
+    required_error: "Required",
+  }),
 });
 
 type TodoFormSchemaType = z.infer<typeof schema>;
